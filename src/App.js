@@ -31,10 +31,20 @@ class App extends React.Component {
   componentDidMount() {
     this.mexSocket = new WebSocket(this.state.endpoint);
     this.mexSocket.onmessage = event => {
-      this.setState({
+      /* this.setState({
         tableData: event.data
       });
-      this.handleDataChange();
+      this.handleDataChange(); */
+
+      var jsonData = JSON.parse(event.data)
+      if(jsonData.data !== undefined ){
+        this.setState({
+            price: jsonData.data[0].price,
+            size: jsonData.data[0].size,
+            side: jsonData.data[0].side,
+            timestamp: jsonData.data[0].timestamp      
+        })
+      }
     }
   }
 
